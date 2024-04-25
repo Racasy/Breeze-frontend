@@ -63,13 +63,24 @@ const toProfile = () => {
                                 </router-link>
                                 <router-link
                                     v-slot="{ href, isActive, navigate }"
-                                    to="/all-files"
+                                    to="/all-files-user"
                                     custom>
                                     <NavLink
                                         :href="href"
                                         :active="isActive"
                                         @click="navigate">
-                                        Your files
+                                        Your files (user)
+                                    </NavLink>
+                                </router-link>
+                                <router-link
+                                    v-slot="{ href, isActive, navigate }"
+                                    to="/all-files-admin"
+                                    custom>
+                                    <NavLink
+                                        :href="href"
+                                        :active="isActive"
+                                        @click="navigate">
+                                        Your files (admin)
                                     </NavLink>
                                 </router-link>
                                 <router-link

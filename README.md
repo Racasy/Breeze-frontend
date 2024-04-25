@@ -1,3 +1,14 @@
+Vajag export visus ierakstus no file_upload kur
+    tas users kas uploadoja ir tajā uzņēmumā
+
+
+
+
+
+
+
+
+
 # Laravel Breeze - Vue.js 3 Edition
 
 ## Inspiration

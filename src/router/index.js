@@ -8,9 +8,11 @@ import Register from '@/pages/auth/Register.vue'
 import ForgotPassword from '@/pages/auth/ForgotPassword.vue'
 import ResetPassword from '@/pages/auth/ResetPassword.vue'
 import VerifyEmail from '@/pages/auth/VerifyEmail.vue'
-import AllFiles from '@/pages/AllFiles.vue'
+import UserAllFiles from '@/pages/UserAllFiles.vue'
+import AdminAllFiles from '@/pages/AdminAllFiles.vue'
 import UploadFiles from '@/pages/UploadFiles.vue'
 import UserProfile from '@/pages/UserProfile.vue';
+import CompanyProfile from '@/pages/CompanyProfile.vue';
 
 const APP_NAME = import.meta.env.VITE_APP_NAME
 
@@ -122,9 +124,22 @@ const routes = [
         redirect: '/page-not-found',
     },
     {
-        path: '/all-files',
-        name: 'AllFiles',
-        component: AllFiles,
+        path: '/all-files-user',
+        name: 'UserAllFiles',
+        component: UserAllFiles,
+        query: {
+            resend: 'resend',
+        },
+        meta: {
+            title: 'Your files',
+            guard: 'auth',
+        },
+        
+    },
+    {
+        path: '/all-files-admin',
+        name: 'AdminAllFiles',
+        component: AdminAllFiles,
         query: {
             resend: 'resend',
         },
@@ -148,7 +163,7 @@ const routes = [
         
     },
     {
-        path: '/profile',
+        path: '/user-profile',
         name: 'UserProfile',
         component: UserProfile,
         query: {
@@ -156,6 +171,19 @@ const routes = [
         },
         meta: {
             title: 'Your Profile',
+            guard: 'auth',
+        },
+        
+    },
+    {
+        path: '/company-profile',
+        name: 'CompanyProfile',
+        component: CompanyProfile,
+        query: {
+            resend: 'resend',
+        },
+        meta: {
+            title: 'Company Profile',
             guard: 'auth',
         },
         
@@ -195,7 +223,7 @@ router.beforeEach((to, from, next) => {
         .find(r => r.meta && r.meta.metaTags)
 
     if (nearestWithTitle) {
-        document.title = nearestWithTitle.meta.title + ' - ' + APP_NAME
+        document.title = nearestWithTitle.meta.title
     } else {
         document.title = APP_NAME
     }

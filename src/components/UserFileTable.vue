@@ -7,7 +7,6 @@
             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Uploaded by</th>
             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">File Name</th>
-            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Path</th>
             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Comment</th>
             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Size (MB)</th>
             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
@@ -18,7 +17,6 @@
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{{ index + 1 }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ file.uploaded_by }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ file.name }}</td>
-            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ file.path }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ file.comment }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ (file.size / (1024 * 1024)).toFixed(2) }}</td>
             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -35,10 +33,12 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from '@/lib/axios'
 import Dropdown from './Dropdown.vue';
 import DropdownLink from './DropdownLink.vue';
 import FileDropdown from './FileDropdown.vue';
+
+const csrf = () => axios.get('/sanctum/csrf-cookie')
 
 export default {
   name: 'FilesTable',
@@ -57,6 +57,7 @@ export default {
   },
   methods: {
     fetchFiles() {
+      csrf()
       axios.get('http://localhost:8000/api/get-files')
         .then(response => {
           this.files = response.data;
