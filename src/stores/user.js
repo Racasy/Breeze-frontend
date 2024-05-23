@@ -11,6 +11,7 @@ export const useUsers = defineStore('users', {
     }),
 
     getters: {
+        is_admin: state => state.userData.role === 'admin',
         authUser: state => state.authStatus === 204,
         hasUserData: state => Object.keys(state.userData).length > 0,
         hasVerified: state =>
@@ -34,7 +35,6 @@ export const useUsers = defineStore('users', {
                     if (error.response && error.response.status !== 409) {
                         console.error('An error occurred while fetching user data:', error);
                     } else {
-                        this.router.push('/verify-email');
                     }
                 });
         },

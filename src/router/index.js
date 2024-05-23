@@ -146,6 +146,7 @@ const routes = [
         meta: {
             title: 'Your files',
             guard: 'auth',
+            requiresAdmin: true
         },
         
     },
@@ -251,5 +252,25 @@ router.beforeEach((to, from, next) => {
 
     next()
 })
+
+// Admin check
+router.beforeEach((to, from, next) => {
+    const userStore = useUsers();
+    const auth = userStore.authUser
+    //if (to.matched.some(route => route.meta.requiresAdmin === 'true') && auth)
+        //next({ name: 'AdminAllFiles' })
+
+    if (to.matched.some(record => record.meta.requiresAdmin) && auth) {
+        console.log(userStore.company)
+        console.log()
+        if (userStore.userData.is_admin) {
+            next();
+        } else {
+            next({ name: 'dashboard' });
+        }
+    } else {
+        next();
+    }
+});
 
 export default router

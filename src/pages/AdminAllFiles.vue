@@ -1,17 +1,39 @@
 <script setup>
-    import AdminFileTable from '@/components/AdminFileTable.vue'
-    import { useUsers } from '@/stores/user.js';
-    import AuthenticatedLayout from '@/layouts/AuthenticatedLayout.vue'
-    import { onBeforeMount, computed } from 'vue';
-    import Dropdown from '@/components/Dropdown.vue'
+import AdminFileTable from '@/components/AdminFileTable.vue'
+import { useUsers } from '@/stores/user.js';
+import AuthenticatedLayout from '@/layouts/AuthenticatedLayout.vue'
+import { onBeforeMount, computed, ref } from 'vue';
+import Dropdown from '@/components/Dropdown.vue'
+import axios from 'axios';
 
-    const { userData } = useUsers();
+const { userData } = useUsers();
 
-    const store = useUsers();
+const store = useUsers();
 
-    onBeforeMount(() => {
-        store.getData()
-    })
+onBeforeMount(() => {
+    store.getData()
+});
+
+const companies = ref([]);
+const selectedCompany = ref(null);
+
+const fetchCompanies = async () => {
+    try {
+        const response = await axios.get('http://localhost:8000/api/companies');
+        companies.value = response.data;
+    } catch (error) {
+        console.error("Error fetching companies:", error);
+    }
+};
+
+const selectCompany = (company) => {
+    selectedCompany.value = company;
+    console.log("Selected company:", company);
+};
+
+onBeforeMount(() => {
+    fetchCompanies();
+});
 </script>
 
 <template>
@@ -19,7 +41,7 @@
         <template #header>
             <div class="flex items-center sm:ml-6">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight mr-4">
-                    All files:
+                    All files of:
                 </h2>
                 <Dropdown>
                     <template #trigger="{ open }">
@@ -32,18 +54,16 @@
                     </template>
                     <template #content>
                         <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" v-for="company in companies" :key="company.id" @click="selectCompany(company)">
-                            {{ company.name }}
+                            {{ company.company_name }}
                         </a>
                     </template>
                 </Dropdown>
             </div>
         </template>
 
-        <div class="py-12 flex-1">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white shadow-sm rounded-md">
-                    <AdminFileTable class="touch-none"/>
-                </div>
+        <div class="py-12 flex justify-center">
+            <div class="bg-white shadow-sm rounded-md p-4">
+                <AdminFileTable />
             </div>
         </div>
     </AuthenticatedLayout>
