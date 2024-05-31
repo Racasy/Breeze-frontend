@@ -8,20 +8,24 @@
 
     const store = useUsers();
 
-    const dateString = userData.created_at;
-
-    function formatDate(dateString) {
-        if (!dateString) return '';
-
-        const date = new Date(dateString);
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        return new Intl.DateTimeFormat('en-US', options).format(date);
-    }
-    
 
     onBeforeMount(() => {
         store.getData()
     })
+
+    const fetchCompanyContactInfo = async () => {
+    try {
+        const response = await axios.get('/api/companies-with-info');
+        const company = response.data.find(c => c.id === userData.company_id);
+        if (company) {
+            companyContactInfo.value = company.contact_info;
+        }
+    } catch (error) {
+        console.error("Error fetching company contact info:", error);
+    }
+};
+
+
 </script>
 
 
@@ -61,21 +65,28 @@
                     {{ userData.company.company_name }}
                   </dd>
                 </div>
-
                 <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                   <dt class="text-sm font-medium text-gray-500">
                     Address
                   </dt>
                   <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    {{ userData.company.address }} 
+                    
                   </dd>
                 </div>
                 <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                   <dt class="text-sm font-medium text-gray-500">
-                    User since
+                    Phone number
                   </dt>
                   <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    {{ userData.company.phone_number }}
+                    
+                  </dd>
+                </div>
+                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt class="text-sm font-medium text-gray-500">
+                    Email
+                  </dt>
+                  <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    
                   </dd>
                 </div>
               </dl>
