@@ -58,7 +58,7 @@ export default {
   methods: {
     fetchFiles() {
       csrf()
-      axios.get('http://localhost:8000/api/get-files')
+      axios.get('https://api-14dphabrams.kvalifikacija.rvt.lv//api/get-files')
         .then(response => {
           this.files = response.data;
         })
