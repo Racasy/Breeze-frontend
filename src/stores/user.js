@@ -21,7 +21,8 @@ export const useUsers = defineStore('users', {
     },
 
     actions: {
-        getData() {
+        async getData() {
+            await csrf()
             axios.get('/api/user')
                 .then(response => {
                     const company = response.data.company ? response.data.company.name : 'Not assigned';
@@ -70,19 +71,21 @@ export const useUsers = defineStore('users', {
             axios
                 .post('/login', form.value)
                 .then(response => {
-                    this.authStatus = response.status
-                    processing.value = false
+                    this.authStatus = response.status;
+                    console.log(response)
+                    localStorage.setItem('authToken', response.data.token);
+                    processing.value = false;
 
                     this.router.push({ name: 'dashboard' })
                 })
-                .catch(error => {
+                /*.catch(error => {
                     if (error.response.status !== 422) throw error
 
                     setErrors.value = Object.values(
                         error.response.data.errors,
                     ).flat()
                     processing.value = false
-                })
+                })*/
         },
 
         async forgotPassword(form, setStatus, setErrors, processing) {

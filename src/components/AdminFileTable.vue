@@ -83,8 +83,8 @@ export default {
   data() {
     return {
       files: [],
-      sortKey: 'date', // Default sort key
-      sortAsc: true    // Default sort order
+      sortKey: 'date',
+      sortAsc: true 
     };
   },
   computed: {
@@ -122,15 +122,15 @@ export default {
     },
     sortFiles(key) {
       if (this.sortKey === key) {
-        this.sortAsc = !this.sortAsc; // Toggle sort order if the same key is clicked
+        this.sortAsc = !this.sortAsc;
       } else {
         this.sortKey = key;
-        this.sortAsc = true; // Default to ascending order for new key
+        this.sortAsc = true; 
       }
     },
     resetToDefaults() {
-      this.sortKey = 'date'; // Reset sort key to default
-      this.sortAsc = true;   // Reset sort order to default
+      this.sortKey = 'date'; 
+      this.sortAsc = true;   
     }
   }
 };
