@@ -19,7 +19,7 @@ const selectedCompany = ref(null);
 
 const fetchCompanies = async () => {
     try {
-        const response = await axios.get('http://localhost:8000/api/companies');
+        const response = await axios.get('https://api-14dphabrams.kvalifikacija.rvt.lv/api/companies');
         companies.value = response.data;
     } catch (error) {
         console.error("Error fetching companies:", error);

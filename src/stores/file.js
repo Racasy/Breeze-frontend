@@ -48,12 +48,12 @@ export const useFilesStore = defineStore('files', {
       //const url = `/api/view-file/${fileId}`;
       //window.open(url, '_blank');
       //hard codeoju lh/8000/api, jo izmantojot augstāk minēto viņš atver 3000 portu
-      window.open(`http://localhost:8000/api/view-file/${fileId}`, '_blank');
+      window.open(`https://api-14dphabrams.kvalifikacija.rvt.lv/api/view-file/${fileId}`, '_blank');
     },
 
     downloadFile(fileId) {
       //hard codeoju lh/8000/api, jo izmantojot augstāk minēto viņš atver 3000 portu
-      window.open(`http://localhost:8000/api/download-file/${fileId}`);
+      window.open(`https://api-14dphabrams.kvalifikacija.rvt.lv/api/download-file/${fileId}`);
     },
 
     updateFileComment(fileId, newComment) {
